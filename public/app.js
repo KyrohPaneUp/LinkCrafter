@@ -4,7 +4,7 @@ let messages = [];
 let editModal;
 
 // Initialize the app when DOM loads
-document.addEventListener("DOMContentLoaded", function () {
+function initApp() {
     console.log("DOM loaded, initializing app...");
     editModal = new bootstrap.Modal(document.getElementById("editModal"));
 
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Remove automatic refresh to prevent page reload issues
     // Users can manually refresh using the refresh button
-});
+};
 
 // Check bot status
 async function checkBotStatus() {
