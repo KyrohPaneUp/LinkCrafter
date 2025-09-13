@@ -171,6 +171,18 @@ async function refreshServersAndChannels() {
     updateChannelSelect();
 }
 
+// Toggle embed fields visibility
+function toggleEmbedFields() {
+    const useEmbed = document.getElementById('useEmbed').checked;
+    const embedFields = document.getElementById('embedFields');
+    
+    if (useEmbed) {
+        embedFields.style.display = 'block';
+    } else {
+        embedFields.style.display = 'none';
+    }
+}
+
 // Send a message
 async function sendMessage(event) {
     console.log("sendMessage called");
@@ -181,9 +193,10 @@ async function sendMessage(event) {
     }
 
     const channelId = document.getElementById("channelSelect").value;
-    const title = document.getElementById("messageTitle").value;
     const content = document.getElementById("messageContent").value;
-    const color = document.getElementById("embedColor").value;
+    const useEmbed = document.getElementById("useEmbed").checked;
+    const title = useEmbed ? document.getElementById("messageTitle").value : "";
+    const color = useEmbed ? document.getElementById("embedColor").value : "#5865F2";
 
     if (!channelId || !content.trim()) {
         showAlert(
@@ -209,8 +222,9 @@ async function sendMessage(event) {
             body: JSON.stringify({
                 channelId,
                 content: content.trim(),
-                title: title.trim() || null,
-                color: title.trim() || color !== "#5865F2" ? color : null,
+                useEmbed: useEmbed,
+                title: useEmbed && title.trim() ? title.trim() : null,
+                color: useEmbed && color !== "#5865F2" ? color : null,
             }),
         });
 

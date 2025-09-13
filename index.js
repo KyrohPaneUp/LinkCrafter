@@ -209,7 +209,7 @@ app.get('/api/channels', requireAuth, async (req, res) => {
 // API endpoint to send a message
 app.post('/api/send-message', requireAuth, async (req, res) => {
     try {
-        const { channelId, content, title, color } = req.body;
+        const { channelId, content, useEmbed, title, color } = req.body;
 
         if (!channelId || !content) {
             return res.status(400).json({ error: 'Channel ID and content are required' });
@@ -221,7 +221,7 @@ app.post('/api/send-message', requireAuth, async (req, res) => {
         }
 
         let message;
-        if (title || color) {
+        if (useEmbed) {
             const embed = new EmbedBuilder()
                 .setDescription(content);
             
@@ -242,10 +242,10 @@ app.post('/api/send-message', requireAuth, async (req, res) => {
             guildId: channel.guild.id,
             guildName: channel.guild.name,
             content,
-            title: title || null,
-            color: color || null,
+            title: useEmbed && title ? title : null,
+            color: useEmbed && color ? color : null,
             timestamp: new Date().toISOString(),
-            isEmbed: !!(title || color)
+            isEmbed: useEmbed
         };
 
         messages.push(messageData);

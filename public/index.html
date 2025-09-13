@@ -87,15 +87,44 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="messageTitle" class="form-label"
-                                        >Title (Optional - for embeds)</label
-                                    >
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            id="useEmbed"
+                                            onchange="toggleEmbedFields()"
+                                            checked
+                                        />
+                                        <label class="form-check-label" for="useEmbed">
+                                            Send as embed (rich message with title and color)
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3" id="embedFields">
+                                    <div class="mb-3">
+                                        <label for="messageTitle" class="form-label"
+                                            >Title (Optional)</label
+                                        >
                                     <input
                                         type="text"
                                         class="form-control"
                                         id="messageTitle"
                                         placeholder="Enter message title"
                                     />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="embedColor" class="form-label"
+                                            >Embed Color</label
+                                        >
+                                        <input
+                                            type="color"
+                                            class="form-control form-control-color"
+                                            id="embedColor"
+                                            value="#5865F2"
+                                        />
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
@@ -111,18 +140,6 @@
                                         required
                                         placeholder="Enter your message here..."
                                     ></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="embedColor" class="form-label"
-                                        >Embed Color (Optional)</label
-                                    >
-                                    <input
-                                        type="color"
-                                        class="form-control form-control-color"
-                                        id="embedColor"
-                                        value="#5865F2"
-                                    />
                                 </div>
 
                                 <button
