@@ -16,11 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('messageForm').addEventListener('submit', sendMessage);
     document.getElementById('guildSelect').addEventListener('change', updateChannelSelect);
     
-    // Refresh data every 30 seconds
-    setInterval(() => {
-        checkBotStatus();
-        loadMessages();
-    }, 30000);
+    // Remove automatic refresh to prevent page reload issues
+    // Users can manually refresh using the refresh button
 });
 
 // Check bot status

@@ -58,29 +58,7 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-// Serve login page publicly
-app.use('/login.html', express.static('public'));
-app.use('/style.css', express.static('public'));
-
-// Serve authenticated static files after auth check
-app.use((req, res, next) => {
-    // Public files that don't need auth
-    if (req.path === '/login.html' || req.path.includes('.css') || req.path.includes('bootstrap')) {
-        return next();
-    }
-    
-    // Static files for authenticated users only
-    if (req.path === '/' || req.path === '/index.html' || req.path === '/app.js') {
-        if (req.session && req.session.authenticated) {
-            return next();
-        } else {
-            return res.redirect('/login.html');
-        }
-    }
-    
-    next();
-});
-
+// Serve static files normally - auth protection is handled by API endpoints
 app.use(express.static('public'));
 
 // Default staff credentials - use environment variables for production
