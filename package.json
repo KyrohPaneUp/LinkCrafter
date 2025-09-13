@@ -1,0 +1,19 @@
+{
+  "name": "discord-staff-bot",
+  "version": "1.0.0",
+  "description": "Discord bot with staff message editing interface",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
