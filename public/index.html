@@ -311,11 +311,7 @@
             function loadApp() {
                 const script = document.createElement("script");
                 script.src = "app.js";
-                script.onload = function() {
-                    if (typeof initApp === 'function') {
-                        initApp();
-                    }
-                };
+                initApp();
                 document.head.appendChild(script);
             }
 
