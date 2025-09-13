@@ -308,12 +308,38 @@
                     window.location.href = "/login.html";
                 });
 
-            function loadApp() {
-                const script = document.createElement("script");
-                script.src = "app.js";
-                initApp();
-                document.head.appendChild(script);
-            }
+function loadApp() {
+    const script = document.createElement("script");
+    script.src = "app.js";
+    
+    script.onload = function() {
+        if (typeof initApp === 'function') {
+            initApp();
+        } else {
+            console.error('initApp function not found');
+            setTimeout(() => window.location.reload(), 1000);
+        }
+    };
+    
+    script.onerror = function() {
+        console.error('Failed to load app.js');
+        // Versuche es mit absoluter URL
+        loadAppFallback();
+    };
+    
+    document.head.appendChild(script);
+}
+
+function loadAppFallback() {
+    const script = document.createElement("script");
+    script.src = window.location.origin + "/app.js?" + Date.now();
+    script.onload = function() {
+        if (typeof initApp === 'function') {
+            initApp();
+        }
+    };
+    document.head.appendChild(script);
+}
 
             function logout() {
                 fetch("/api/logout", {
