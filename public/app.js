@@ -15,6 +15,7 @@ function initApp() {
     // Load data that requires authentication
     loadChannels();
     loadMessages();
+    toggleEmbedFields()
 
     // Set up form handlers
     document
@@ -248,6 +249,7 @@ async function sendMessage(event) {
             submitBtn.textContent = "Send Message";
         }
     }
+    toggleEmbedFields()
 }
 
 // Load message history
