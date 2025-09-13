@@ -50,9 +50,15 @@ app.use(session({
     }
 }));
 
-// Configure CORS securely
+// Configure CORS securely - allow Replit domains
+const allowedOrigins = [
+    'http://localhost:5000',
+    `https://${process.env.REPLIT_DEV_DOMAIN}`,
+    `http://${process.env.REPLIT_DEV_DOMAIN}`
+].filter(Boolean);
+
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' ? false : 'http://localhost:5000',
+    origin: allowedOrigins,
     credentials: true
 }));
 
