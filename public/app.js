@@ -84,19 +84,24 @@ async function checkBotStatus() {
 
 // Load available channels
 async function loadChannels() {
+    console.log('loadChannels called');
     try {
         const response = await fetch('/api/channels', { credentials: 'include' });
+        console.log('Channels API response status:', response.status);
         
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
         
         guilds = await response.json();
+        console.log('Guilds data received:', guilds);
         
         const guildSelect = document.getElementById('guildSelect');
+        console.log('Guild select element:', guildSelect);
         guildSelect.innerHTML = '<option value="">Select a server...</option>';
         
         guilds.forEach(guild => {
+            console.log('Adding guild:', guild.name);
             const option = document.createElement('option');
             option.value = guild.id;
             option.textContent = guild.name;

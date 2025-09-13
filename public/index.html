@@ -30,7 +30,10 @@
                     <div class="card-body">
                         <form id="messageForm">
                             <div class="mb-3">
-                                <label for="guildSelect" class="form-label">Server</label>
+                                <label for="guildSelect" class="form-label">
+                                    Server
+                                    <button type="button" class="btn btn-outline-secondary btn-sm ms-2" onclick="loadChannels()">Refresh Servers</button>
+                                </label>
                                 <select class="form-select" id="guildSelect" required>
                                     <option value="">Select a server...</option>
                                 </select>
