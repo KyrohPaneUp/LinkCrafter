@@ -5,22 +5,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discord Bot - Staff Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             align-items: center;
+            color: #e8e9ea;
         }
+        
         .login-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #2c2d34, #35363e);
+            border: 1px solid #4a4d56;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(111, 66, 193, 0.3), 0 8px 25px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
         }
+        
         .login-header {
-            background: linear-gradient(135deg, #5865f2, #404eed);
+            background: linear-gradient(135deg, #6f42c1, #8a4bff, #a855f7);
             color: white;
-            border-radius: 15px 15px 0 0;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+        
+        .card-body {
+            background: rgba(44, 45, 52, 0.9);
+            color: #e8e9ea;
+        }
+        
+        .card-footer {
+            background: rgba(26, 27, 38, 0.6);
+            border-top: 1px solid #4a4d56;
+            color: #b3b4b8;
+        }
+        
+        .form-control {
+            background-color: #35363e;
+            border: 1px solid #4a4d56;
+            color: #e8e9ea;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            background-color: #2c2d34;
+            border-color: #8a4bff;
+            box-shadow: 0 0 0 0.2rem rgba(138, 75, 255, 0.25);
+            color: #e8e9ea;
+        }
+        
+        .form-control::placeholder {
+            color: #b3b4b8;
+        }
+        
+        .form-label {
+            color: #e8e9ea;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6f42c1, #8a4bff);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(111, 66, 193, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #8a4bff, #a855f7);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(111, 66, 193, 0.5);
+        }
+        
+        .btn-primary:disabled {
+            background: #4a4d56;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .login-card h3 {
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .login-card p {
+            opacity: 0.9;
+        }
+        
+        /* Glowing effect for the card */
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #6f42c1, #8a4bff, #a855f7, #6f42c1);
+            z-index: -1;
+            border-radius: 22px;
+            background-size: 400% 400%;
+            animation: gradientShift 4s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .container {
+            position: relative;
         }
     </style>
 </head>

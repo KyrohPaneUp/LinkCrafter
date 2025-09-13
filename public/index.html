@@ -9,13 +9,16 @@
             rel="stylesheet"
         />
         <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </head>
     <body>
-        <nav class="navbar navbar-dark bg-dark">
+        <nav class="navbar navbar-dark">
             <div class="container">
-                <span class="navbar-brand">Discord Bot - Staff Dashboard</span>
+                <span class="navbar-brand fw-bold">
+                    <i class="fas fa-robot me-2"></i>Discord Bot - Staff Dashboard
+                </span>
                 <div class="d-flex align-items-center gap-2">
-                    <span id="username" class="text-light me-2"></span>
+                    <span id="username" class="text-light me-2 fw-medium"></span>
                     <span id="status" class="badge bg-secondary"
                         >Checking status...</span
                     >
@@ -23,7 +26,7 @@
                         class="btn btn-outline-light btn-sm"
                         onclick="logout()"
                     >
-                        Logout
+                        <i class="fas fa-sign-out-alt me-1"></i>Logout
                     </button>
                 </div>
             </div>
