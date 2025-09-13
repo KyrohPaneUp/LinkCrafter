@@ -109,17 +109,8 @@
             document.querySelector('.card-body').appendChild(alertDiv);
         }
         
-        // Check if already logged in
-        fetch('/api/auth-status', { credentials: 'include' })
-            .then(response => response.json())
-            .then(data => {
-                if (data.authenticated) {
-                    window.location.href = '/';
-                }
-            })
-            .catch(error => {
-                console.log('Not authenticated');
-            });
+        // Login page doesn't need to check if already authenticated
+        // Let the main page handle authenticated users
     </script>
 </body>
 </html>

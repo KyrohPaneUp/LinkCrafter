@@ -58,10 +58,10 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-// Handle trailing slash redirects for HTML files
+// Handle trailing slash with internal rewrite (no redirect to avoid loops)
 app.use((req, res, next) => {
-    if (req.path.endsWith('.html/')) {
-        return res.redirect(301, req.path.slice(0, -1));
+    if (req.url.endsWith('.html/')) {
+        req.url = req.url.slice(0, -1); // internal rewrite, prevents ping-pong
     }
     next();
 });
