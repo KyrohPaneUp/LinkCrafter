@@ -7,8 +7,10 @@ let editModal;
 document.addEventListener('DOMContentLoaded', function() {
     editModal = new bootstrap.Modal(document.getElementById('editModal'));
     
-    // Load initial data
+    // Check bot status immediately (doesn't require auth)
     checkBotStatus();
+    
+    // Load data that requires authentication
     loadChannels();
     loadMessages();
     
@@ -67,6 +69,11 @@ async function checkBotStatus() {
 async function loadChannels() {
     try {
         const response = await fetch('/api/channels', { credentials: 'include' });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
         guilds = await response.json();
         
         const guildSelect = document.getElementById('guildSelect');
@@ -80,6 +87,12 @@ async function loadChannels() {
         });
     } catch (error) {
         console.error('Error loading channels:', error);
+        const guildSelect = document.getElementById('guildSelect');
+        if (error.message.includes('401')) {
+            guildSelect.innerHTML = '<option value="">Please login first</option>';
+        } else {
+            guildSelect.innerHTML = '<option value="">Error loading servers</option>';
+        }
     }
 }
 
@@ -159,13 +172,23 @@ async function sendMessage(event) {
 async function loadMessages() {
     try {
         const response = await fetch('/api/messages', { credentials: 'include' });
-        messages = await response.json();
         
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        messages = await response.json();
         renderMessages();
     } catch (error) {
         console.error('Error loading messages:', error);
-        document.getElementById('messagesContainer').innerHTML = 
-            '<div class="alert alert-danger">Failed to load messages</div>';
+        const container = document.getElementById('messagesContainer');
+        if (container) {
+            if (error.message.includes('401')) {
+                container.innerHTML = '<div class="alert alert-warning">Please login to view message history</div>';
+            } else {
+                container.innerHTML = '<div class="alert alert-danger">Failed to load messages</div>';
+            }
+        }
     }
 }
 
