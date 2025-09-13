@@ -29,14 +29,16 @@
                     </div>
                     <div class="card-body">
                         <form id="messageForm">
-                            <div class="mb-3">
-                                <label for="guildSelect" class="form-label">
-                                    Server
-                                    <button type="button" class="btn btn-outline-secondary btn-sm ms-2" onclick="loadChannels()">Refresh Servers</button>
-                                </label>
-                                <select class="form-select" id="guildSelect" required>
-                                    <option value="">Select a server...</option>
-                                </select>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="guildSelect" class="form-label">Server</label>
+                                    <select class="form-select" id="guildSelect" required>
+                                        <option value="">Select a server...</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto d-flex align-items-end">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="refreshServersAndChannels()">Refresh</button>
+                                </div>
                             </div>
                             
                             <div class="mb-3">

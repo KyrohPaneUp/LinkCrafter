@@ -122,13 +122,16 @@ async function loadChannels() {
 function updateChannelSelect() {
     const guildId = document.getElementById('guildSelect').value;
     const channelSelect = document.getElementById('channelSelect');
+    console.log('updateChannelSelect called with guildId:', guildId);
     
     channelSelect.innerHTML = '<option value="">Select a channel...</option>';
     
     if (guildId) {
         const guild = guilds.find(g => g.id === guildId);
+        console.log('Found guild:', guild);
         if (guild) {
             guild.channels.forEach(channel => {
+                console.log('Adding channel:', channel.name);
                 const option = document.createElement('option');
                 option.value = channel.id;
                 option.textContent = `# ${channel.name}`;
@@ -136,6 +139,13 @@ function updateChannelSelect() {
             });
         }
     }
+}
+
+// Refresh both servers and channels
+async function refreshServersAndChannels() {
+    console.log('Refreshing servers and channels...');
+    await loadChannels();
+    updateChannelSelect();
 }
 
 // Send a message
