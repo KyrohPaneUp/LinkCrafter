@@ -144,7 +144,22 @@ function updateChannelSelect() {
 // Refresh both servers and channels
 async function refreshServersAndChannels() {
     console.log('Refreshing servers and channels...');
+    
+    // Save the currently selected server
+    const currentGuildId = document.getElementById('guildSelect').value;
+    console.log('Current selected guild:', currentGuildId);
+    
+    // Load the servers
     await loadChannels();
+    
+    // Re-select the previously selected server if it exists
+    if (currentGuildId) {
+        const guildSelect = document.getElementById('guildSelect');
+        guildSelect.value = currentGuildId;
+        console.log('Re-selected guild:', currentGuildId);
+    }
+    
+    // Update channels for the selected server
     updateChannelSelect();
 }
 
