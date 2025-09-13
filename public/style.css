@@ -12,7 +12,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: #2c2d34;
+    background: #0f0f0f;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -33,22 +33,22 @@ body {
 }
 
 .card-header {
-    background: linear-gradient(135deg, #6f42c1, #8a4bff);
+    background: linear-gradient(135deg, #5819cc, #5a16da);
     border-bottom: 1px solid #4a4d56;
     color: white;
 }
 
 .card-body {
-    background: rgb(25, 25, 26, 0.9);
+    background: rgb(18, 17, 17, 0.9);
 }
 
 /* Message items */
 .message-item {
-    border: 1px solid #4a4d56;
+    border: 1px solid #3b3d40;
     border-radius: 12px;
     padding: 1.25rem;
     margin-bottom: 1rem;
-    background: linear-gradient(145deg, #35363e, #2c2d34);
+    background: linear-gradient(145deg, #212121, #2c2c30);
     box-shadow: 0 4px 15px rgba(111, 66, 193, 0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -140,7 +140,7 @@ body {
 
 /* Form controls */
 .form-control, .form-select {
-    background-color: #35363e;
+    background-color: #232525;
     border: 1px solid #4a4d56;
     color: #e8e9ea;
     border-radius: 8px;

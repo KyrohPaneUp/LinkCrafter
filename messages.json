@@ -48,15 +48,15 @@
     "isEmbed": true
   },
   {
-    "id": "1416350211848142939",
+    "id": "1416395522960265287",
     "channelId": "1378062144330928261",
     "channelName": "general",
     "guildId": "1378062143601246238",
     "guildName": "ParkourClient",
-    "content": "Hello",
-    "title": null,
-    "color": null,
-    "timestamp": "2025-09-13T09:10:05.083Z",
-    "isEmbed": false
+    "content": "froggerinski",
+    "title": "Hello",
+    "color": "#5865f2",
+    "timestamp": "2025-09-13T12:10:08.102Z",
+    "isEmbed": true
   }
 ]
