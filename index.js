@@ -52,7 +52,7 @@ app.use(session({
 // Configure CORS securely - allow Replit domains
 const allowedOrigins = [
     'http://localhost:5000',
-    'https://linkcrafter-kfp0.onrender.com'
+    'https://linkcrafter-kfp0.onrender.com',
     `https://${process.env.REPLIT_DEV_DOMAIN}`,
     `http://${process.env.REPLIT_DEV_DOMAIN}`
 ].filter(Boolean);
