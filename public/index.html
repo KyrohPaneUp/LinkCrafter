@@ -1,188 +1,311 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Bot - Staff Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container">
-            <span class="navbar-brand">Discord Bot - Staff Dashboard</span>
-            <div class="d-flex align-items-center gap-2">
-                <span id="username" class="text-light me-2"></span>
-                <span id="status" class="badge bg-secondary">Checking status...</span>
-                <button class="btn btn-outline-light btn-sm" onclick="logout()">Logout</button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Discord Bot - Staff Dashboard</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container">
+                <span class="navbar-brand">Discord Bot - Staff Dashboard</span>
+                <div class="d-flex align-items-center gap-2">
+                    <span id="username" class="text-light me-2"></span>
+                    <span id="status" class="badge bg-secondary"
+                        >Checking status...</span
+                    >
+                    <button
+                        class="btn btn-outline-light btn-sm"
+                        onclick="logout()"
+                    >
+                        Logout
+                    </button>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <div class="container mt-4">
-        <!-- Send New Message Section -->
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Send New Message</h5>
-                    </div>
-                    <div class="card-body">
-                        <form id="messageForm">
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <label for="guildSelect" class="form-label">Server</label>
-                                    <select class="form-select" id="guildSelect" required>
-                                        <option value="">Select a server...</option>
+        <div class="container mt-4">
+            <!-- Send New Message Section -->
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Send New Message</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="messageForm">
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <label
+                                            for="guildSelect"
+                                            class="form-label"
+                                            >Server</label
+                                        >
+                                        <select
+                                            class="form-select"
+                                            id="guildSelect"
+                                            required
+                                        >
+                                            <option value="">
+                                                Select a server...
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div
+                                        class="col-auto d-flex align-items-end"
+                                    >
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-secondary"
+                                            onclick="refreshServersAndChannels()"
+                                        >
+                                            Refresh
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label
+                                        for="channelSelect"
+                                        class="form-label"
+                                        >Channel</label
+                                    >
+                                    <select
+                                        class="form-select"
+                                        id="channelSelect"
+                                        required
+                                    >
+                                        <option value="">
+                                            Select a channel...
+                                        </option>
                                     </select>
                                 </div>
-                                <div class="col-auto d-flex align-items-end">
-                                    <button type="button" class="btn btn-outline-secondary" onclick="refreshServersAndChannels()">Refresh</button>
+
+                                <div class="mb-3">
+                                    <label for="messageTitle" class="form-label"
+                                        >Title (Optional - for embeds)</label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="messageTitle"
+                                        placeholder="Enter message title"
+                                    />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label
+                                        for="messageContent"
+                                        class="form-label"
+                                        >Message Content</label
+                                    >
+                                    <textarea
+                                        class="form-control"
+                                        id="messageContent"
+                                        rows="4"
+                                        required
+                                        placeholder="Enter your message here..."
+                                    ></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="embedColor" class="form-label"
+                                        >Embed Color (Optional)</label
+                                    >
+                                    <input
+                                        type="color"
+                                        class="form-control form-control-color"
+                                        id="embedColor"
+                                        value="#5865F2"
+                                    />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    onclick="sendMessage()"
+                                    class="btn btn-primary"
+                                >
+                                    Send Message
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div
+                            class="card-header d-flex justify-content-between align-items-center"
+                        >
+                            <h6>Bot Status</h6>
+                            <button
+                                class="btn btn-outline-secondary btn-sm"
+                                onclick="checkBotStatus()"
+                            >
+                                Refresh
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="botStatus">
+                                <div class="d-flex align-items-center">
+                                    <div
+                                        class="spinner-border spinner-border-sm me-2"
+                                        role="status"
+                                    ></div>
+                                    Checking bot status...
                                 </div>
                             </div>
-                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message History Section -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div
+                            class="card-header d-flex justify-content-between align-items-center"
+                        >
+                            <h5>Message History</h5>
+                            <button
+                                class="btn btn-outline-secondary btn-sm"
+                                onclick="loadMessages()"
+                            >
+                                Refresh
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="messagesContainer">
+                                <div class="text-center p-4">
+                                    <div
+                                        class="spinner-border"
+                                        role="status"
+                                    ></div>
+                                    <p class="mt-2">Loading messages...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Message Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Message</h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editForm">
+                            <input type="hidden" id="editMessageId" />
+
                             <div class="mb-3">
-                                <label for="channelSelect" class="form-label">Channel</label>
-                                <select class="form-select" id="channelSelect" required>
-                                    <option value="">Select a channel...</option>
-                                </select>
+                                <label for="editTitle" class="form-label"
+                                    >Title</label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="editTitle"
+                                    placeholder="Enter message title"
+                                />
                             </div>
 
                             <div class="mb-3">
-                                <label for="messageTitle" class="form-label">Title (Optional - for embeds)</label>
-                                <input type="text" class="form-control" id="messageTitle" placeholder="Enter message title">
+                                <label for="editContent" class="form-label"
+                                    >Content</label
+                                >
+                                <textarea
+                                    class="form-control"
+                                    id="editContent"
+                                    rows="4"
+                                    required
+                                ></textarea>
                             </div>
 
                             <div class="mb-3">
-                                <label for="messageContent" class="form-label">Message Content</label>
-                                <textarea class="form-control" id="messageContent" rows="4" required placeholder="Enter your message here..."></textarea>
+                                <label for="editColor" class="form-label"
+                                    >Embed Color</label
+                                >
+                                <input
+                                    type="color"
+                                    class="form-control form-control-color"
+                                    id="editColor"
+                                />
                             </div>
-
-                            <div class="mb-3">
-                                <label for="embedColor" class="form-label">Embed Color (Optional)</label>
-                                <input type="color" class="form-control form-control-color" id="embedColor" value="#5865F2">
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Send Message</button>
                         </form>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6>Bot Status</h6>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="checkBotStatus()">Refresh</button>
-                    </div>
-                    <div class="card-body">
-                        <div id="botStatus">
-                            <div class="d-flex align-items-center">
-                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
-                                Checking bot status...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Message History Section -->
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5>Message History</h5>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="loadMessages()">
-                            Refresh
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            onclick="saveEdit()"
+                        >
+                            Save Changes
                         </button>
                     </div>
-                    <div class="card-body">
-                        <div id="messagesContainer">
-                            <div class="text-center p-4">
-                                <div class="spinner-border" role="status"></div>
-                                <p class="mt-2">Loading messages...</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Edit Message Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Message</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editForm">
-                        <input type="hidden" id="editMessageId">
-                        
-                        <div class="mb-3">
-                            <label for="editTitle" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="editTitle" placeholder="Enter message title">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="editContent" class="form-label">Content</label>
-                            <textarea class="form-control" id="editContent" rows="4" required></textarea>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="editColor" class="form-label">Embed Color</label>
-                            <input type="color" class="form-control form-control-color" id="editColor">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" onclick="saveEdit()">Save Changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Check authentication before loading the app
+            fetch("/api/auth-status", { credentials: "include" })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.authenticated) {
+                        document.getElementById("username").textContent =
+                            `Welcome, ${data.username}`;
+                        loadApp();
+                    } else {
+                        window.location.href = "/login.html";
+                    }
+                })
+                .catch((error) => {
+                    console.error("Auth check failed:", error);
+                    window.location.href = "/login.html";
+                });
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Check authentication before loading the app
-        fetch('/api/auth-status', { credentials: 'include' })
-            .then(response => response.json())
-            .then(data => {
-                if (data.authenticated) {
-                    document.getElementById('username').textContent = `Welcome, ${data.username}`;
-                    loadApp();
-                } else {
-                    window.location.href = '/login.html';
-                }
-            })
-            .catch(error => {
-                console.error('Auth check failed:', error);
-                window.location.href = '/login.html';
-            });
-        
-        function loadApp() {
-            const script = document.createElement('script');
-            script.src = 'app.js';
-            document.head.appendChild(script);
-        }
-        
-        function logout() {
-            fetch('/api/logout', { 
-                method: 'POST', 
-                credentials: 'include' 
-            })
-            .then(() => {
-                window.location.href = '/login.html';
-            })
-            .catch(error => {
-                console.error('Logout failed:', error);
-                window.location.href = '/login.html';
-            });
-        }
-    </script>
-</body>
+            function loadApp() {
+                const script = document.createElement("script");
+                script.src = "app.js";
+                document.head.appendChild(script);
+            }
+
+            function logout() {
+                fetch("/api/logout", {
+                    method: "POST",
+                    credentials: "include",
+                })
+                    .then(() => {
+                        window.location.href = "/login.html";
+                    })
+                    .catch((error) => {
+                        console.error("Logout failed:", error);
+                        window.location.href = "/login.html";
+                    });
+            }
+        </script>
+    </body>
 </html>
