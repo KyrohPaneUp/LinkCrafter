@@ -5,10 +5,12 @@ let editModal;
 
 // Initialize the app when DOM loads
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing app...');
     editModal = new bootstrap.Modal(document.getElementById('editModal'));
     
-    // Check bot status immediately (doesn't require auth)
+    // Check bot status immediately and retry if needed
     checkBotStatus();
+    setTimeout(checkBotStatus, 1000); // Retry after 1 second
     
     // Load data that requires authentication
     loadChannels();
@@ -24,44 +26,59 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Check bot status
 async function checkBotStatus() {
+    console.log('checkBotStatus called');
     try {
         const response = await fetch('/api/health', { credentials: 'include' });
         const data = await response.json();
+        console.log('Health API response:', data);
         
         const statusElement = document.getElementById('status');
         const botStatusElement = document.getElementById('botStatus');
+        console.log('Status element:', statusElement);
+        console.log('Bot status element:', botStatusElement);
         
         if (data.botReady) {
-            statusElement.textContent = 'Bot Online';
-            statusElement.className = 'badge bg-success';
+            if (statusElement) {
+                statusElement.textContent = 'Bot Online';
+                statusElement.className = 'badge bg-success';
+            }
             
-            botStatusElement.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <div class="bg-success rounded-circle me-2" style="width: 8px; height: 8px;"></div>
-                    <div>
-                        <strong>Online</strong><br>
-                        <small class="text-muted">${data.botTag}</small>
+            if (botStatusElement) {
+                botStatusElement.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success rounded-circle me-2" style="width: 8px; height: 8px;"></div>
+                        <div>
+                            <strong>Online</strong><br>
+                            <small class="text-muted">${data.botTag}</small>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
         } else {
-            statusElement.textContent = 'Bot Offline';
-            statusElement.className = 'badge bg-danger';
+            if (statusElement) {
+                statusElement.textContent = 'Bot Offline';
+                statusElement.className = 'badge bg-danger';
+            }
             
-            botStatusElement.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <div class="bg-danger rounded-circle me-2" style="width: 8px; height: 8px;"></div>
-                    <div>
-                        <strong>Offline</strong><br>
-                        <small class="text-muted">Discord token required</small>
+            if (botStatusElement) {
+                botStatusElement.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <div class="bg-danger rounded-circle me-2" style="width: 8px; height: 8px;"></div>
+                        <div>
+                            <strong>Offline</strong><br>
+                            <small class="text-muted">Discord token required</small>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
         }
     } catch (error) {
         console.error('Error checking bot status:', error);
-        document.getElementById('status').textContent = 'Connection Error';
-        document.getElementById('status').className = 'badge bg-warning';
+        const statusElement = document.getElementById('status');
+        if (statusElement) {
+            statusElement.textContent = 'Connection Error';
+            statusElement.className = 'badge bg-warning';
+        }
     }
 }
 
