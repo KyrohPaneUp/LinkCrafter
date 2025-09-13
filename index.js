@@ -58,6 +58,14 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
+// Handle trailing slash redirects for HTML files
+app.use((req, res, next) => {
+    if (req.path.endsWith('.html/')) {
+        return res.redirect(301, req.path.slice(0, -1));
+    }
+    next();
+});
+
 // Serve static files normally - auth protection is handled by API endpoints
 app.use(express.static('public'));
 
