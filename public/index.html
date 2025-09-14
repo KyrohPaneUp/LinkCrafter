@@ -34,8 +34,8 @@
 
         <div class="container mt-4">
             <!-- Send New Message Section -->
-            <div class="row">
-                <div class="col-md-8">
+            <div class="row h-100">
+                <div class="col-md-8 d-flex flex-column h-100", id="messageContainer">
                     <div class="card">
                         <div class="card-header">
                             <h5>Send New Message</h5>
@@ -158,27 +158,32 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="card">
-                        <div
-                            class="card-header d-flex justify-content-between align-items-center"
-                        >
+                <div class="col-md-4 d-flex flex-column h-100" id="rightColumn">
+                    <!-- Bot Status -->
+                    <div class="card mb-3" id="botStatusCard">
+                        <div class="card-header d-flex justify-content-between align-items-center">
                             <h6>Bot Status</h6>
-                            <button
-                                class="btn btn-outline-secondary btn-sm"
-                                onclick="checkBotStatus()"
-                            >
-                                Refresh
-                            </button>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="checkBotStatus()">Refresh</button>
                         </div>
-                        <div class="card-body">
-                            <div id="botStatus">
-                                <div class="d-flex align-items-center">
-                                    <div
-                                        class="spinner-border spinner-border-sm me-2"
-                                        role="status"
-                                    ></div>
-                                    Checking bot status...
+                        <div class="card-body" id="botStatus">
+                            <div class="d-flex align-items-center">
+                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                Checking bot status...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Insert Pings -->
+                    <div class="card flex-column flex-grow-1" id="insertPingsCard">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6>Insert Pings</h6>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="refreshPings()">Refresh</button>
+                        </div>
+                        <div class="card-body p-2 overflow-auto" id="pingsListContainer">
+                            <div id="pingsList">
+                                <div class="text-center py-3">
+                                    <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                    Loading pings...
                                 </div>
                             </div>
                         </div>
@@ -307,38 +312,16 @@
                     window.location.href = "/login.html";
                 });
 
-function loadApp() {
-    const script = document.createElement("script");
-    script.src = "app.js";
-    
-    script.onload = function() {
-        if (typeof initApp === 'function') {
-            initApp();
-        } else {
-            console.error('initApp function not found');
-            setTimeout(() => window.location.reload(), 1000);
-        }
-    };
-    
-    script.onerror = function() {
-        console.error('Failed to load app.js');
-        // Versuche es mit absoluter URL
-        loadAppFallback();
-    };
-    
-    document.head.appendChild(script);
-}
-
-function loadAppFallback() {
-    const script = document.createElement("script");
-    script.src = window.location.origin + "/app.js?" + Date.now();
-    script.onload = function() {
-        if (typeof initApp === 'function') {
-            initApp();
-        }
-    };
-    document.head.appendChild(script);
-}
+            function loadApp() {
+                const script = document.createElement("script");
+                script.src = "app.js";
+                script.onload = function() {
+                    if (typeof initApp === 'function') {
+                        initApp();
+                    }
+                };
+                document.head.appendChild(script);
+            }
 
             function logout() {
                 fetch("/api/logout", {
