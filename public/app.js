@@ -336,37 +336,54 @@ function editMessage(messageId) {
     if (!message) return;
 
     document.getElementById("editMessageId").value = messageId;
-    document.getElementById("editTitle").value = message.title || "";
     document.getElementById("editContent").value = message.content;
-    document.getElementById("editColor").value = message.color || "#5865F2";
+
+    const editEmbedFields = document.getElementById("editEmbedFields");
+
+    if (message.isEmbed) {
+        document.getElementById("editTitle").value = message.title || "";
+        document.getElementById("editColor").value = message.color || "#5865F2";
+        editEmbedFields.style.display = 'block';
+    } else {
+        console.log("disabling embed fields")
+        editEmbedFields.style.display = 'none';
+    }
 
     editModal.show();
 }
 
+
 // Save edited message
 async function saveEdit() {
     const messageId = document.getElementById("editMessageId").value;
-    const title = document.getElementById("editTitle").value;
-    const content = document.getElementById("editContent").value;
-    const color = document.getElementById("editColor").value;
+    const content = document.getElementById("editContent").value.trim();
 
-    if (!content.trim()) {
+    if (!content) {
         showAlert("Content cannot be empty", "danger");
         return;
+    }
+
+    // Finde Nachricht, um zu prüfen, ob Embed oder nicht
+    const message = messages.find((m) => m.id === messageId);
+    if (!message) {
+        showAlert("Message not found", "danger");
+        return;
+    }
+
+    let body = { content };
+
+    if (message.isEmbed) {
+        // Nur dann Title/Color anhängen
+        body.title = document.getElementById("editTitle").value.trim() || null;
+        body.color = document.getElementById("editColor").value;
     }
 
     try {
         const response = await fetch(`/api/edit-message/${messageId}`, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             credentials: "include",
-            body: JSON.stringify({
-                content: content.trim(),
-                title: title.trim() || null,
-                color: title.trim() || color !== "#5865F2" ? color : null,
-            }),
+            body: JSON.stringify(body),
         });
 
         const result = await response.json();
