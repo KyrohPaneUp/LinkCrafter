@@ -26,7 +26,7 @@ function initApp() {
         .getElementById("guildSelect")
         .addEventListener("change", updateChannelSelect);
 
-    setTimeout(adjustPingsHeight, 100);
+    setTimeout(adjustPingsHeight, 500);
     displayPings();
 
     window.addEventListener('resize', adjustPingsHeight);
@@ -57,18 +57,12 @@ function adjustPingsHeight() {
     }
 }
 
-setTimeout(adjustPingsHeight, 100);
-
 const observer = new MutationObserver(adjustPingsHeight);
 observer.observe(messageContainer, { 
     childList: true, 
     subtree: true, 
     attributes: true 
 });
-
-window.addEventListener('resize', adjustPingsHeight);
-window.addEventListener('load', adjustPingsHeight);
-
 
 function displayPings() {
     const pingsList = document.getElementById('pingsList');
