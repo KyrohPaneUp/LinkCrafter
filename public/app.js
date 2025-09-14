@@ -15,7 +15,8 @@ function initApp() {
     // Load data that requires authentication
     loadChannels();
     loadMessages();
-    toggleEmbedFields()
+    
+    toggleEmbedFields();
 
     // Set up form handlers
     document
@@ -25,9 +26,96 @@ function initApp() {
         .getElementById("guildSelect")
         .addEventListener("change", updateChannelSelect);
 
+    setTimeout(adjustPingsHeight, 100);
+    displayPings();
+
+    window.addEventListener('resize', adjustPingsHeight);
     // Remove automatic refresh to prevent page reload issues
     // Users can manually refresh using the refresh button
 };
+
+const pingMap = new Map([
+    ['@everyone', '@everyone'],
+    ['@here', '@here'],
+    ['Notified', '<@&714610825557442621>'],
+    ['Maps', '<@&987654321098765432>'],
+    ['Completions', '<@&1352800315358838794>'],
+    ['Map Submitter', '<@&1146164496776315031>'],
+    ['XVI', '<@&605773184138084363>'],
+    ['Economy Breaker', '<@&684809300618772600>'],
+    ['Millionaire', '<@&686657305684475964>']
+]);
+
+function adjustPingsHeight() {
+    const messageContainer = document.getElementById('messageContainer');
+    const botStatusCard = document.getElementById('botStatusCard');
+    const pingsCard = document.querySelector('.col-md-4 .card:last-child');
+
+    if (messageContainer && botStatusCard && pingsCard) {
+        const messageHeight = messageContainer.offsetHeight;
+        pingsCard.style.height = (messageHeight - botStatusCard.offsetHeight - 16) + 'px';
+    }
+}
+
+setTimeout(adjustPingsHeight, 100);
+
+const observer = new MutationObserver(adjustPingsHeight);
+observer.observe(messageContainer, { 
+    childList: true, 
+    subtree: true, 
+    attributes: true 
+});
+
+window.addEventListener('resize', adjustPingsHeight);
+window.addEventListener('load', adjustPingsHeight);
+
+
+function displayPings() {
+    const pingsList = document.getElementById('pingsList');
+
+    if (pingMap.size === 0) {
+        pingsList.innerHTML = '<div class="text-center text-muted py-3">No pings available</div>';
+        return;
+    }
+
+    let html = '';
+    pingMap.forEach((value, key) => {
+        html += `
+            <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded ping-item">
+                <div class="fw-medium text-truncate me-2" title="${key}">${key}</div>
+                <button class="btn btn-sm btn-outline-primary flex-shrink-0" onclick="handlePingClick('${key}')">
+                    Insert
+                </button>
+            </div>
+        `;
+    });
+
+    pingsList.innerHTML = html;
+}
+
+function handlePingClick(key) {
+    const value = pingMap.get(key);
+    console.log(`Ping clicked: ${key} = ${value}`);
+
+    const messageContent = document.getElementById('messageContent');
+    if (messageContent) {
+        messageContent.value += ` ${value}`;
+        messageContent.focus();
+    }
+}
+
+function refreshPings() {
+    const pingsList = document.getElementById('pingsList');
+    pingsList.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm me-2" role="status"></div>Refreshing...</div>';
+
+    setTimeout(() => {
+        displayPings();
+    }, 500);
+}
+
+function onMessageContainerChange() {
+    setTimeout(adjustPingsHeight, 50);
+}
 
 // Check bot status
 async function checkBotStatus() {
@@ -249,7 +337,7 @@ async function sendMessage(event) {
             submitBtn.textContent = "Send Message";
         }
     }
-    toggleEmbedFields()
+    toggleEmbedFields();
 }
 
 // Load message history
@@ -400,6 +488,7 @@ async function saveEdit() {
         showAlert("Failed to edit message", "danger");
     }
 }
+
 
 // Delete a message from history
 async function deleteMessage(messageId) {
