@@ -233,17 +233,27 @@
                         <form id="editForm">
                             <input type="hidden" id="editMessageId" />
 
-                            <div class="mb-3">
-                                <label for="editTitle" class="form-label"
-                                    >Title</label
-                                >
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="editTitle"
-                                    placeholder="Enter message title"
-                                />
+                            <div id="editEmbedFields" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="editTitle" class="form-label">Title</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="editTitle"
+                                        placeholder="Enter message title"
+                                    />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="editColor" class="form-label">Embed Color</label>
+                                    <input
+                                        type="color"
+                                        class="form-control form-control-color"
+                                        id="editColor"
+                                    />
+                                </div>
                             </div>
+
 
                             <div class="mb-3">
                                 <label for="editContent" class="form-label"
@@ -255,17 +265,6 @@
                                     rows="4"
                                     required
                                 ></textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="editColor" class="form-label"
-                                    >Embed Color</label
-                                >
-                                <input
-                                    type="color"
-                                    class="form-control form-control-color"
-                                    id="editColor"
-                                />
                             </div>
                         </form>
                     </div>
