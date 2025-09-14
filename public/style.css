@@ -284,3 +284,48 @@ body {
         gap: 0.25rem;
     }
 }
+
+html, body {
+    height: 100%;
+}
+
+.container.h-100 {
+    height: calc(100vh - 56px);
+}
+
+#rightColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+#insertPingsCard {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+#pingsListContainer {
+    align-self: stretch;
+    flex-grow: 1;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.ping-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+.ping-item {
+    border: 1px solid #4a4d56 !important;
+    background: linear-gradient(145deg, #2c2d34, #2f2f32);
+  
+    color: #e8e9ea;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.ping-item:hover {
+    border-color: #4c0189 !important;
+    box-shadow: 0 12px 30px rgba(111, 66, 193, 0.25), 0 6px 15px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+}
